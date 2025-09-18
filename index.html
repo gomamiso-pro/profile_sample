@@ -3,84 +3,202 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>自己紹介 - 愛知 太郎</title>
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+  <title>社員紹介 - モダンデザイン</title>
   <style>
+    :root {
+      --bg-gradient: linear-gradient(120deg, #6dd5ed, #2193b0);
+      --glass-bg: rgba(255, 255, 255, 0.15);
+      --glass-border: rgba(255, 255, 255, 0.3);
+      --text-color: #fff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-gradient: linear-gradient(120deg, #141e30, #243b55);
+        --text-color: #eee;
+      }
+    }
+
     body {
-      font-family: 'Comfortaa', cursive;
-      background: #fff0f5;
+      margin: 0;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
-      padding: 10px;
+      font-family: "Segoe UI", "Hiragino Sans", sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-color);
+      overflow: hidden;
     }
 
+    /* 背景アニメーション */
+    .background {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1), transparent 40%),
+                  radial-gradient(circle at 75% 75%, rgba(255,255,255,0.1), transparent 40%);
+      animation: move 20s infinite linear;
+      z-index: 0;
+    }
+    @keyframes move {
+      from { transform: translate(0, 0); }
+      to { transform: translate(-20%, -20%); }
+    }
+
+    /* カード本体 */
     .card {
-      background: #ffe4e1;
+      position: relative;
+      z-index: 1;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
       border-radius: 20px;
-      padding: 20px;
+      padding: 30px;
       width: 100%;
-      max-width: 360px;
+      max-width: 420px;
       text-align: center;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      transform: translateY(30px);
+      opacity: 0;
+      animation: fadeInUp 1s ease forwards;
     }
 
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    @keyframes fadeInUp {
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .profile-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid rgba(255,255,255,0.4);
+      margin-bottom: 15px;
+      animation: popIn 0.8s ease forwards;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
 
     h1 {
-      font-size: 1.6em;
-      margin-bottom: 10px;
-      color: #ff69b4;
+      font-size: 1.8em;
+      margin: 10px 0 5px;
     }
 
-    p {
+    h2 {
       font-size: 1em;
-      margin: 8px 0;
-      color: #555;
+      font-weight: 400;
+      opacity: 0.8;
+      margin: 0 0 15px;
     }
 
-    .emoji {
-      font-size: 1.5em;
-      margin-right: 5px;
+    .section {
+      margin: 15px 0;
+      text-align: left;
+    }
+
+    .section-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      border-left: 4px solid #fff;
+      padding-left: 8px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     .tag {
-      display: inline-block;
-      background: #ffd1dc;
-      color: #ff1493;
-      border-radius: 15px;
-      padding: 5px 10px;
-      margin: 5px 3px;
-      font-size: 0.9em;
-      word-break: keep-all;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      padding: 5px 12px;
+      font-size: 0.85em;
+      backdrop-filter: blur(6px);
+      opacity: 0;
+      transform: scale(0);
+      animation: popTag 0.5s forwards;
+    }
+    .tag:nth-child(1) { animation-delay: 0.8s; }
+    .tag:nth-child(2) { animation-delay: 1s; }
+    .tag:nth-child(3) { animation-delay: 1.2s; }
+
+    @keyframes popTag {
+      to { opacity: 1; transform: scale(1); }
     }
 
-    @media (max-width: 400px) {
-      h1 {
-        font-size: 1.4em;
-      }
+    /* SNSリンク */
+    .sns-links {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
 
-      .tag {
-        font-size: 0.85em;
-        padding: 4px 8px;
-      }
+    .sns-links a {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      text-decoration: none;
+      transition: transform 0.3s, background 0.3s;
+    }
+
+    .sns-links a:hover {
+      transform: scale(1.15);
+      background: rgba(255,255,255,0.4);
+    }
+
+    /* SVGアイコンを見やすく調整 */
+    .sns-links svg {
+      width: 20px;
+      height: 20px;
     }
   </style>
 </head>
 <body>
+  <div class="background"></div>
+
   <div class="card">
-    <h1>愛知 太郎</h1>
-    <p>はじめまして！</p>
-    <p>趣味：</p>
-    <div>
-      <span class="tag">🐱 猫が好き</span>
-      <span class="tag">🍰 スイーツが好き</span>
+    <img src="https://placekitten.com/200/200" alt="プロフィール写真" class="profile-img">
+    <h1>田中 花子</h1>
+    <h2>株式会社モダンソリューション / 広報部</h2>
+
+    <div class="section">
+      <div class="section-title">会社プロフィール</div>
+      <p>広報としてSNS運用や企画を担当。<br>チームで成果を出すことを大切にしています。</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title">プライベート</div>
+      <p>趣味は旅行と動画編集。休日はカフェで友人と過ごすことが多いです。</p>
+      <div class="tags">
+        <span class="tag">✈️ 旅行</span>
+        <span class="tag">📹 YouTube動画制作</span>
+        <span class="tag">☕ カフェ巡り</span>
+      </div>
+    </div>
+
+    <div class="sns-links">
+      <a href="https://youtube.com" target="_blank" aria-label="YouTube">
+        <!-- YouTube SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 576 512"><path d="M549.7 124.1c-6.3-23.6-24.8-42.1-48.4-48.4C458.6 64 288 64 288 64S117.4 64 74.7 75.7c-23.6 6.3-42.1 24.8-48.4 48.4C14 167.8 14 256 14 256s0 88.2 12.3 131.9c6.3 23.6 24.8 42.1 48.4 48.4C117.4 448 288 448 288 448s170.6 0 213.3-11.7c23.6-6.3 42.1-24.8 48.4-48.4C562 344.2 562 256 562 256s0-88.2-12.3-131.9zM232 338.5v-165l142 82.5-142 82.5z"/></svg>
+      </a>
+      <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+        <!-- Instagram SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9 114.9-51.3 114.9-114.9S287.7 141 224.1 141zm0 189.6c-41.2 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.5 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.9-26.9 26.9-14.9 0-26.9-12-26.9-26.9s12-26.9 26.9-26.9 26.9 12 26.9 26.9zM398.8 388c-7.8 19.6-22.9 34.7-42.5 42.5-29.4 11.7-99.4 9-132.2 9s-102.7 2.6-132.2-9c-19.6-7.8-34.7-22.9-42.5-42.5-11.7-29.4-9-99.4-9-132.2s-2.6-102.7 9-132.2c7.8-19.6 22.9-34.7 42.5-42.5 29.4-11.7 99.4-9 132.2-9s102.7-2.6 132.2 9c19.6 7.8 34.7 22.9 42.5 42.5 11.7 29.4 9 99.4 9 132.2s2.7 102.7-9 132.2z"/></svg>
+      </a>
+      <a href="https://line.me/ti/p/~yourid" target="_blank" aria-label="LINE">
+        <!-- LINE SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 512 512"><path d="M256.1 32C114.6 32 0 125.1 0 240c0 56.3 28.1 107.3 74.9 144.1-2.5 31.5-9.1 70.1-27.4 106.5 0 0-5.5 11.4 5.9 6.3 0 0 72.8-23.7 105.5-40.9 30.6 8.4 63.4 13 97.2 13 141.5 0 256.1-93.1 256.1-208 0-114.9-114.6-208-256.1-208z"/></svg>
+      </a>
     </div>
   </div>
 </body>
