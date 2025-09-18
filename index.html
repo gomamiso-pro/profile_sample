@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>社員紹介ページ - ジャイロ背景版</title>
+  <title>社員紹介ページ - オフィス背景版</title>
   <style>
     body {
       margin: 0;
@@ -26,14 +26,15 @@
     .bg {
       position: absolute;
       top: 0; left: 0;
-      width: 120%; height: 120%;
+      width: 100%; height: 100%;
       z-index: -1;
-      transform: translateZ(-2px) scale(1.2);
+      background-size: cover;
+      background-position: center;
+      transition: background-image 1s ease-in-out;
     }
     /* 会社 */
     .company {
-      background: linear-gradient(135deg, #004e92, #000428);
-      transition: background 0.8s ease;
+      background: #000; /* 初期背景 */
     }
     .logo {
       font-size: 2.5em;
@@ -106,8 +107,8 @@
       border: none; padding: 8px 14px;
       border-radius: 8px; cursor: pointer;
     }
-    /* 占い・位置情報 */
-    .fortune, .geo {
+    /* 占い */
+    .fortune {
       margin-top: 20px;
       padding: 15px;
       background: rgba(255, 255, 255, 0.3);
@@ -126,7 +127,7 @@
 <body>
   <!-- 会社 -->
   <section class="company">
-    <div class="bg"></div>
+    <div class="bg" id="company-bg"></div>
     <div class="content" id="gyro-target">
       <div class="logo">Modern Solutions</div>
       <h1>株式会社モダンソリューション</h1>
@@ -200,29 +201,26 @@
       privateSection.style.background=privateBgs[bgIndex];
     },4000);
 
-    // ジャイロ制御
-    const gyroTarget=document.getElementById("gyro-target");
-    const companySection=document.querySelector(".company");
-    const companyBgs=[
-      "linear-gradient(135deg, #004e92, #000428)", // デフォ
-      "linear-gradient(135deg, #11998e, #38ef7d)", // 緑
-      "linear-gradient(135deg, #ff6a00, #ee0979)"  // 赤オレンジ
+    // 会社背景を3秒ごとに切替（オフィスっぽい画像）
+    const companyBg=document.getElementById("company-bg");
+    const officeImgs=[
+      "url('https://picsum.photos/seed/office1/1200/800')",
+      "url('https://picsum.photos/seed/office2/1200/800')",
+      "url('https://picsum.photos/seed/office3/1200/800')"
     ];
+    let officeIndex=0;
+    setInterval(()=>{
+      officeIndex=(officeIndex+1)%officeImgs.length;
+      companyBg.style.backgroundImage=officeImgs[officeIndex];
+    },3000);
 
+    // ジャイロ制御（社名・名前を傾ける）
+    const gyroTarget=document.getElementById("gyro-target");
     window.addEventListener("deviceorientation",(e)=>{
       const x=e.gamma, y=e.beta;
       if(x!==null&&y!==null){
-        // 感度強化版
+        // 強めに角度を反映
         gyroTarget.style.transform=`rotateY(${x/5}deg) rotateX(${y/10}deg)`;
-
-        // 傾きで会社背景切替
-        if(x>20){
-          companySection.style.background=companyBgs[1];
-        }else if(x<-20){
-          companySection.style.background=companyBgs[2];
-        }else{
-          companySection.style.background=companyBgs[0];
-        }
       }
     });
 
@@ -230,7 +228,7 @@
     window.addEventListener("scroll",()=>{
       document.querySelectorAll(".bg").forEach((bg)=>{
         let offset=window.scrollY*0.3;
-        bg.style.transform=`translateY(${offset}px) scale(1.2)`;
+        bg.style.transform=`translateY(${offset}px)`;
       });
     });
   </script>
