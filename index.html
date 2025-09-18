@@ -3,21 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>社員紹介 - 趣味と占い付き</title>
+  <title>社員紹介ページ</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    section {
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      background: linear-gradient(120deg, #89f7fe, #66a6ff);
-      font-family: "Segoe UI", sans-serif;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* 会社エリア */
+    .company {
+      background: url("https://picsum.photos/1200/800?blur=2") no-repeat center/cover;
+      position: relative;
+    }
+
+    .company .content {
+      background: rgba(0,0,50,0.6);
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 500px;
+    }
+
+    .company h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    .company p {
+      font-size: 1em;
+      line-height: 1.6em;
+    }
+
+    /* プライベートエリア */
+    .private {
+      background: linear-gradient(120deg, #fbc2eb, #a6c1ee);
+      flex-direction: column;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(12px);
       border-radius: 20px;
       padding: 25px;
@@ -25,20 +59,6 @@
       text-align: center;
       color: #fff;
       box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      position: relative;
-      z-index: 1;
-    }
-
-    h1 {
-      margin: 10px 0 5px;
-      font-size: 1.6em;
-    }
-
-    h2 {
-      margin: 0 0 15px;
-      font-size: 1em;
-      font-weight: normal;
-      opacity: 0.8;
     }
 
     .hobbies {
@@ -57,11 +77,9 @@
       position: relative;
       cursor: pointer;
       box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-      transform: translateY(0);
       animation: float 4s ease-in-out infinite;
       transition: transform 0.3s;
     }
-
     .hobby:nth-child(2) { animation-delay: 1s; }
     .hobby:nth-child(3) { animation-delay: 2s; }
 
@@ -91,7 +109,6 @@
       align-items: center;
       z-index: 999;
     }
-
     .modal-content {
       background: #fff;
       color: #333;
@@ -101,12 +118,10 @@
       text-align: center;
       animation: popIn 0.4s ease;
     }
-
     @keyframes popIn {
       from { transform: scale(0.7); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
-
     .close-btn {
       margin-top: 15px;
       background: #0077b6;
@@ -121,7 +136,7 @@
     .fortune {
       margin-top: 20px;
       padding: 15px;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.3);
       border-radius: 12px;
       font-size: 0.95em;
       line-height: 1.4em;
@@ -129,25 +144,38 @@
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>田中 花子</h1>
-    <h2>株式会社モダンソリューション / 広報部</h2>
-    <p>趣味をクリックすると紹介が見られます👇</p>
-    <div class="hobbies">
-      <div class="hobby" onclick="openModal('旅行', '世界中を旅して、美しい景色を写真に収めています。')">
-        <img src="https://placekitten.com/200/200" alt="旅行">
-      </div>
-      <div class="hobby" onclick="openModal('カフェ巡り', '休日はお気に入りのカフェを探してリラックス。')">
-        <img src="https://picsum.photos/200/200?random=1" alt="カフェ">
-      </div>
-      <div class="hobby" onclick="openModal('動画制作', 'YouTubeに趣味のVlogを投稿しています。')">
-        <img src="https://picsum.photos/200/200?random=2" alt="動画制作">
-      </div>
+  <!-- 会社エリア -->
+  <section class="company">
+    <div class="content">
+      <h1>株式会社モダンソリューション</h1>
+      <p>広報部所属 / 田中 花子</p>
+      <p>
+        ITソリューションとクリエイティブの融合を目指し、<br>
+        チームでの情報発信を担当しています。
+      </p>
+      <p>⬇️ スクロールしてプライベート紹介へ</p>
     </div>
+  </section>
 
-    <!-- 占いエリア -->
-    <div class="fortune" id="fortune"></div>
-  </div>
+  <!-- プライベートエリア -->
+  <section class="private">
+    <div class="card">
+      <h2>🌸 プライベート紹介</h2>
+      <p>趣味をクリックすると詳細が見られます👇</p>
+      <div class="hobbies">
+        <div class="hobby" onclick="openModal('旅行', '世界中を旅して、美しい景色を写真に収めています。')">
+          <img src="https://placekitten.com/200/200" alt="旅行">
+        </div>
+        <div class="hobby" onclick="openModal('カフェ巡り', '休日はお気に入りのカフェを探してリラックス。')">
+          <img src="https://picsum.photos/200/200?random=1" alt="カフェ">
+        </div>
+        <div class="hobby" onclick="openModal('動画制作', 'YouTubeに趣味のVlogを投稿しています。')">
+          <img src="https://picsum.photos/200/200?random=2" alt="動画制作">
+        </div>
+      </div>
+      <div class="fortune" id="fortune"></div>
+    </div>
+  </section>
 
   <!-- モーダル -->
   <div class="modal" id="modal">
@@ -159,7 +187,7 @@
   </div>
 
   <script>
-    // モーダル制御
+    // モーダル
     function openModal(title, text) {
       document.getElementById('modal-title').textContent = title;
       document.getElementById('modal-text').textContent = text;
@@ -169,7 +197,7 @@
       document.getElementById('modal').style.display = 'none';
     }
 
-    // 占いデータ
+    // 占い
     const fortunes = [
       "大吉 🌟 新しい挑戦が成功につながります！",
       "中吉 😊 友達との会話からヒントが得られそう。",
@@ -177,15 +205,10 @@
       "吉 ✨ 運動すると気分も運もアップ！",
       "凶 😅 慎重に行動することでトラブル回避。"
     ];
-
-    // 日替わり占い（シードを日付にする）
     const today = new Date();
     const seed = today.getFullYear() + today.getMonth() + today.getDate();
     const index = seed % fortunes.length;
     document.getElementById("fortune").textContent = "🔮 今日の占い：" + fortunes[index];
   </script>
-</body>
-</html>    </div>
-  </div>
 </body>
 </html>
