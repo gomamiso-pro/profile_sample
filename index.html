@@ -128,6 +128,31 @@
       font-size: 0.95em;
       line-height: 1.4em;
     }
+    /* メニュー */
+    .menu-btn {
+      position: fixed;
+      top: 15px; right: 20px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #fff;
+      z-index: 1000;
+    }
+    .menu {
+      position: fixed;
+      top: 50px; right: 20px;
+      background: rgba(0,0,0,0.8);
+      border-radius: 8px;
+      display: none;
+      padding: 10px;
+      z-index: 1000;
+    }
+    .menu ul { margin: 0; padding: 0; list-style: none; }
+    .menu li {
+      padding: 8px 15px;
+      color: #fff;
+      cursor: pointer;
+    }
+    .menu li:hover { background: rgba(255,255,255,0.1); }
     /* アニメーション */
     @keyframes typing { from{width:0;} to{width:100%;} }
     @keyframes blink { 50%{border-color:transparent;} }
@@ -137,6 +162,14 @@
   </style>
 </head>
 <body>
+  <!-- メニューボタン -->
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  <div class="menu" id="menu">
+    <ul>
+      <li onclick="showQrCode()">📱 マイQRコード</li>
+    </ul>
+  </div>
+
   <!-- 会社 -->
   <section class="company">
     <div class="bg" id="company-bg"></div>
@@ -146,7 +179,6 @@
       <p>広報部所属 / 田中 花子</p>
       <p>「IT × クリエイティブ」で未来をつくる。<br>情報発信を通じて、企業と人をつなぐ役割を担っています。</p>
       <p>⬇️ スクロールしてプライベート紹介へ</p>
-
       <!-- SNSアイコン -->
       <div class="sns-icons">
         <a href="https://www.instagram.com" target="_blank">
@@ -161,7 +193,6 @@
       </div>
     </div>
   </section>
-
   <!-- プライベート -->
   <section class="private">
     <div class="card">
@@ -181,8 +212,7 @@
       <div class="fortune" id="fortune"></div>
     </div>
   </section>
-
-  <!-- モーダル -->
+  <!-- 趣味用モーダル -->
   <div class="modal" id="modal">
     <div class="modal-content">
       <h3 id="modal-title"></h3>
@@ -190,9 +220,20 @@
       <button class="close-btn" onclick="closeModal()">閉じる</button>
     </div>
   </div>
+  <!-- QRコード用モーダル -->
+  <div class="modal" id="qr-modal">
+    <div class="modal-content">
+      <h3>📱 マイQRコード</h3>
+      <div id="qrcode"></div>
+      <button class="close-btn" onclick="closeQr()">閉じる</button>
+    </div>
+  </div>
+
+  <!-- QRコードライブラリ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <script>
-    // モーダル
+    // モーダル（趣味）
     function openModal(title,text){
       document.getElementById('modal-title').textContent=title;
       document.getElementById('modal-text').textContent=text;
@@ -256,6 +297,28 @@
         bg.style.transform=`translateY(${offset}px)`;
       });
     });
+
+    // メニュー開閉
+    function toggleMenu() {
+      const menu=document.getElementById("menu");
+      menu.style.display = (menu.style.display === "block") ? "none" : "block";
+    }
+
+    // QRコード表示
+    function showQrCode() {
+      document.getElementById("qr-modal").style.display="flex";
+      document.getElementById("menu").style.display="none";
+      if (!document.getElementById("qrcode").hasChildNodes()) {
+        new QRCode(document.getElementById("qrcode"), {
+          text: "https://gomamiso-pro.github.io/profile_sample/",
+          width: 200,
+          height: 200
+        });
+      }
+    }
+    function closeQr() {
+      document.getElementById("qr-modal").style.display="none";
+    }
   </script>
 </body>
 </html>
