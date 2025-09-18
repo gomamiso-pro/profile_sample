@@ -10,7 +10,6 @@
       font-family: "Segoe UI", sans-serif;
       scroll-behavior: smooth;
       color: #fff;
-      perspective: 1000px;
     }
 
     section {
@@ -24,18 +23,20 @@
       overflow: hidden;
     }
 
-    /* 背景（パララックス用） */
+    /* パララックス背景 */
     .bg {
       position: absolute;
       top: 0; left: 0;
-      width: 120%;
-      height: 120%;
+      width: 100%; height: 100%;
       z-index: -1;
-      transform: translateZ(-2px) scale(1.2);
+      background-size: cover;
+      background-position: center;
+      transform: translateY(0);
+      transition: transform 0.1s linear;
     }
 
     /* 会社エリア */
-    .company {
+    .company .bg {
       background: linear-gradient(135deg, #004e92, #000428);
     }
 
@@ -53,31 +54,14 @@
       animation: typing 3s steps(20, end) forwards, blink 0.7s infinite;
     }
 
-    .company .content {
+    .content {
       max-width: 600px;
-      transform-style: preserve-3d;
       transition: transform 0.2s ease-out;
     }
 
-    .company h1, .company p {
-      animation: fadeInUp 2s ease;
-    }
-
-    .company h1 {
-      font-size: 2em;
-      margin-bottom: 15px;
-    }
-
-    .company p {
-      font-size: 1.1em;
-      line-height: 1.6em;
-      opacity: 0.85;
-    }
-
     /* プライベートエリア */
-    .private {
+    .private .bg {
       background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
-      flex-direction: column;
     }
 
     .card {
@@ -88,79 +72,6 @@
       max-width: 420px;
       text-align: center;
       box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-      animation: fadeInUp 1.5s ease;
-    }
-
-    .hobbies {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-top: 15px;
-    }
-
-    .hobby {
-      width: 90px;
-      height: 90px;
-      border-radius: 15px;
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-      animation: float 4s ease-in-out infinite;
-      transition: transform 0.3s;
-    }
-    .hobby:nth-child(2) { animation-delay: 1s; }
-    .hobby:nth-child(3) { animation-delay: 2s; }
-
-    .hobby:hover {
-      transform: scale(1.2);
-    }
-
-    .hobby img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* モーダル */
-    .modal {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
-    .modal-content {
-      background: #fff;
-      color: #333;
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 300px;
-      text-align: center;
-      animation: popIn 0.4s ease;
-    }
-    .close-btn {
-      margin-top: 15px;
-      background: #0077b6;
-      color: #fff;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    /* 占い */
-    .fortune {
-      margin-top: 20px;
-      padding: 15px;
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 12px;
-      font-size: 0.95em;
-      line-height: 1.4em;
     }
 
     /* アニメーション */
@@ -170,18 +81,6 @@
     }
     @keyframes blink {
       50% { border-color: transparent; }
-    }
-    @keyframes fadeInUp {
-      from { transform: translateY(40px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-    @keyframes popIn {
-      from { transform: scale(0.7); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
@@ -193,84 +92,57 @@
       <div class="logo">Modern Solutions</div>
       <h1>株式会社モダンソリューション</h1>
       <p>広報部所属 / 田中 花子</p>
-      <p>
-        「IT × クリエイティブ」で未来をつくる。<br>
-        情報発信を通じて、企業と人をつなぐ役割を担っています。
-      </p>
       <p>⬇️ スクロールしてプライベート紹介へ</p>
     </div>
   </section>
 
   <!-- プライベートエリア -->
   <section class="private">
+    <div class="bg"></div>
     <div class="card">
       <h2>🌸 プライベート紹介</h2>
-      <p>趣味をクリックすると詳細が見られます👇</p>
-      <div class="hobbies">
-        <div class="hobby" onclick="openModal('旅行', '世界中を旅して、美しい景色を写真に収めています。')">
-          <img src="https://placekitten.com/200/200" alt="旅行">
-        </div>
-        <div class="hobby" onclick="openModal('カフェ巡り', '休日はお気に入りのカフェを探してリラックス。')">
-          <img src="https://picsum.photos/200/200?random=1" alt="カフェ">
-        </div>
-        <div class="hobby" onclick="openModal('動画制作', 'YouTubeに趣味のVlogを投稿しています。')">
-          <img src="https://picsum.photos/200/200?random=2" alt="動画制作">
-        </div>
-      </div>
-      <div class="fortune" id="fortune"></div>
+      <p>ここに趣味や占いを表示</p>
     </div>
   </section>
 
-  <!-- モーダル -->
-  <div class="modal" id="modal">
-    <div class="modal-content">
-      <h3 id="modal-title"></h3>
-      <p id="modal-text"></p>
-      <button class="close-btn" onclick="closeModal()">閉じる</button>
-    </div>
-  </div>
+  <!-- ジャイロ許可ボタン -->
+  <button id="gyro-btn" style="position:fixed;top:10px;right:10px;z-index:1000;">
+    📱 ジャイロ許可
+  </button>
 
   <script>
-    // モーダル
-    function openModal(title, text) {
-      document.getElementById('modal-title').textContent = title;
-      document.getElementById('modal-text').textContent = text;
-      document.getElementById('modal').style.display = 'flex';
-    }
-    function closeModal() {
-      document.getElementById('modal').style.display = 'none';
-    }
+    // パララックス
+    window.addEventListener("scroll", () => {
+      document.querySelectorAll(".bg").forEach(bg => {
+        let offset = window.scrollY * 0.3;
+        bg.style.transform = `translateY(${offset}px)`;
+      });
+    });
 
-    // 占い（日替わり）
-    const fortunes = [
-      "大吉 🌟 新しい挑戦が成功につながります！",
-      "中吉 😊 友達との会話からヒントが得られそう。",
-      "小吉 🍀 ちょっとした工夫で物事がうまく進みます。",
-      "吉 ✨ 運動すると気分も運もアップ！",
-      "凶 😅 慎重に行動することでトラブル回避。"
-    ];
-    const today = new Date();
-    const seed = today.getFullYear() + today.getMonth() + today.getDate();
-    const index = seed % fortunes.length;
-    document.getElementById("fortune").textContent = "🔮 今日の占い：" + fortunes[index];
-
-    // スマホ傾きでロゴ・社名・名前を動かす
-    const gyroTarget = document.getElementById("gyro-target");
-    window.addEventListener("deviceorientation", (e) => {
-      const x = e.gamma; // 左右
-      const y = e.beta;  // 前後
-      if (x !== null && y !== null) {
-        gyroTarget.style.transform = `rotateY(${x/20}deg) rotateX(${y/40}deg)`;
+    // スマホ傾き
+    const target = document.getElementById("gyro-target");
+    document.getElementById("gyro-btn").addEventListener("click", () => {
+      if (DeviceOrientationEvent.requestPermission) {
+        DeviceOrientationEvent.requestPermission().then(response => {
+          if (response === "granted") {
+            window.addEventListener("deviceorientation", handleOrientation);
+            document.getElementById("gyro-btn").style.display = "none";
+          }
+        });
+      } else {
+        // Androidは許可不要
+        window.addEventListener("deviceorientation", handleOrientation);
+        document.getElementById("gyro-btn").style.display = "none";
       }
     });
 
-    // パララックス（背景）
-    window.addEventListener("scroll", () => {
-      document.querySelectorAll(".bg").forEach((bg, i) => {
-        let offset = window.scrollY * 0.3;
-        bg.style.transform = `translateY(${offset}px) scale(1.2)`;
-      });
-    });
+    function handleOrientation(e) {
+      const x = e.gamma; // 左右
+      const y = e.beta;  // 前後
+      if (x !== null && y !== null) {
+        target.style.transform = `rotateY(${x/20}deg) rotateX(${y/40}deg)`;
+      }
+    }
   </script>
 </body>
 </html>
