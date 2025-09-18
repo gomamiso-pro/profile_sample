@@ -3,16 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>遊び心デモページ</title>
+  <title>Modern Solutions - Hanako Tanaka</title>
   <style>
     body {
       margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      height: 200vh;
+      font-family: sans-serif;
+      height: 200vh; /* スクロール用 */
       overflow-x: hidden;
       background: linear-gradient(to bottom, #fdfdfd, #eaeaea);
-      transition: background 0.5s, color 0.5s;
-      text-align: center;
+      transition: background 0.5s;
     }
 
     header {
@@ -28,18 +27,14 @@
     h1 {
       font-size: 2rem;
       margin: 0;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 1s ease;
     }
 
     .tagline {
-      font-size: 1.2rem;
-      opacity: 0;
-      margin-top: 0.5rem;
-      transition: opacity 1.5s ease;
+      font-size: 1rem;
+      opacity: 0.7;
     }
 
+    /* 趣味カード */
     .cards {
       display: flex;
       justify-content: center;
@@ -61,94 +56,56 @@
       font-weight: bold;
       transition: transform 0.3s, box-shadow 0.3s;
       cursor: pointer;
-      opacity: 0;
     }
 
-    .card.show {
-      opacity: 1;
-      transform: translateY(0);
-      transition: all 0.8s ease;
-    }
-
-    .bubble {
-      position: absolute;
-      bottom: -40px;
-      background: #ffeb3b;
-      padding: 6px 10px;
-      border-radius: 12px;
-      font-size: 0.8rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      animation: pop 0.5s ease forwards;
-    }
-
-    @keyframes pop {
-      from { opacity: 0; transform: translateY(10px) scale(0.8); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
+    .card:active {
+      transform: scale(1.2);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
   </style>
 </head>
 <body>
   <header>
-    <h1 id="title">株式会社モダンソリューション</h1>
-    <p class="tagline" id="tagline">「IT × クリエイティブ」で未来をつくる</p>
+    <h1>株式会社モダンソリューション</h1>
+    <p class="tagline">「IT × クリエイティブ」で未来をつくる</p>
 
     <div class="cards">
-      <div class="card hobby" data-msg="次の目的地はどこ？">旅行</div>
-      <div class="card hobby" data-msg="お気に入りのカフェ探し中☕">カフェ</div>
-      <div class="card hobby" data-msg="新作動画を準備中🎬">動画制作</div>
+      <div class="card hobby">旅行</div>
+      <div class="card hobby">カフェ</div>
+      <div class="card hobby">動画制作</div>
     </div>
   </header>
 
   <script>
-    // 初回表示アニメーション
-    window.addEventListener("load", () => {
-      document.getElementById("title").style.opacity = 1;
-      document.getElementById("title").style.transform = "translateY(0)";
-      setTimeout(() => {
-        document.getElementById("tagline").style.opacity = 1;
-      }, 800);
-
-      // カードを順番に出す
-      document.querySelectorAll(".card").forEach((card, i) => {
-        setTimeout(() => card.classList.add("show"), 1200 + i * 300);
-      });
-    });
-
-    // スクロールパララックス
+    // 📌 スクロールでパララックス
     window.addEventListener("scroll", () => {
       const scrollY = window.scrollY;
       document.querySelector("header").style.transform =
         `translateY(${scrollY * 0.3}px)`;
     });
 
-    // ジャイロでカード傾き
+    // 📌 ジャイロ傾きでカード追従
     window.addEventListener("deviceorientation", (e) => {
-      const x = e.gamma; 
-      const y = e.beta;
+      const x = e.gamma; // 左右
+      const y = e.beta;  // 前後
       document.querySelectorAll(".card").forEach(card => {
         card.style.transform =
-          `rotateY(${x/10}deg) rotateX(${y/20}deg) scale(1)`;
+          `rotateY(${x/10}deg) rotateX(${y/20}deg)`;
       });
     });
 
-    // タップで拡大＋振動＋吹き出し
+    // 📌 タップで拡大＋振動
     document.querySelectorAll(".card").forEach(card => {
       card.addEventListener("click", () => {
-        if (navigator.vibrate) navigator.vibrate(80);
+        if (navigator.vibrate) navigator.vibrate(50);
         card.style.transform = "scale(1.2)";
-        setTimeout(() => card.style.transform = "scale(1)", 300);
-
-        // 吹き出し追加
-        const msg = card.dataset.msg;
-        const bubble = document.createElement("div");
-        bubble.className = "bubble";
-        bubble.innerText = msg;
-        card.appendChild(bubble);
-        setTimeout(() => bubble.remove(), 2000);
+        setTimeout(() => {
+          card.style.transform = "scale(1)";
+        }, 300);
       });
     });
 
-    // 光センサーで背景切替
+    // 📌 光センサーで背景変化
     if ("AmbientLightSensor" in window) {
       try {
         const sensor = new AmbientLightSensor();
@@ -165,9 +122,11 @@
         });
         sensor.start();
       } catch (e) {
-        console.log("AmbientLightSensor エラー", e);
+        console.log("AmbientLightSensor サポートなし", e);
       }
+    } else {
+      console.log("光センサー未対応");
     }
   </script>
 </body>
-</html>
+</html></html>
