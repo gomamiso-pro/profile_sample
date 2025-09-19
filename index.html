@@ -1,324 +1,294 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>社員紹介ページ - SNS付き</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      scroll-behavior: smooth;
-      color: #fff;
-      perspective: 1000px;
-    }
-    section {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-      position: relative;
-      overflow: hidden;
-    }
-    .bg {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: -1;
-      background-size: cover;
-      background-position: center;
-      transition: background-image 1s ease-in-out;
-      filter: brightness(0.7);
-    }
-    /* 会社 */
-    .company .content {
-      max-width: 600px;
-      transform-style: preserve-3d;
-      transition: transform 0.2s ease-out;
-    }
-    .logo {
-      font-size: 2.5em;
-      font-weight: bold;
-      background: linear-gradient(90deg, #00f2fe, #4facfe);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 10px;
-      white-space: nowrap;
-      border-right: 3px solid rgba(255,255,255,0.75);
-      overflow: hidden;
-      width: 0;
-      animation: typing 3s steps(20, end) forwards, blink 0.7s infinite;
-    }
-    .sns-icons {
-      margin-top: 20px;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-    .sns-icons a img {
-      width: 40px;
-      height: 40px;
-      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
-      transition: transform 0.3s;
-    }
-    .sns-icons a img:hover {
-      transform: scale(1.2);
-    }
-    /* プライベート */
-    .private {
-      background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
-      flex-direction: column;
-      transition: background 1s ease;
-    }
-    .card {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(12px);
-      border-radius: 20px;
-      padding: 25px;
-      max-width: 420px;
-      text-align: center;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-      animation: fadeInUp 1.5s ease;
-    }
-    .hobbies { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 15px; }
-    .hobby {
-      width: 90px; height: 90px;
-      border-radius: 15px;
-      overflow: hidden;
-      cursor: pointer;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-      animation: float 4s ease-in-out infinite;
-      transition: transform 0.3s;
-    }
-    .hobby:nth-child(2){ animation-delay:1s; }
-    .hobby:nth-child(3){ animation-delay:2s; }
-    .hobby:hover { transform: scale(1.2); }
-    .hobby img { width:100%; height:100%; object-fit: cover; }
-    /* モーダル */
-    .modal {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      display: none;
-      justify-content: center; align-items: center;
-      z-index: 999;
-    }
-    .modal-content {
-      background: #fff; color: #333;
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 300px;
-      text-align: center;
-      animation: popIn 0.4s ease;
-    }
-    .close-btn {
-      margin-top: 15px;
-      background: #0077b6; color: #fff;
-      border: none; padding: 8px 14px;
-      border-radius: 8px; cursor: pointer;
-    }
-    /* 占い */
-    .fortune {
-      margin-top: 20px;
-      padding: 15px;
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 12px;
-      font-size: 0.95em;
-      line-height: 1.4em;
-    }
-    /* メニュー */
-    .menu-btn {
-      position: fixed;
-      top: 15px; right: 20px;
-      font-size: 28px;
-      cursor: pointer;
-      color: #fff;
-      z-index: 1000;
-    }
-    .menu {
-      position: fixed;
-      top: 50px; right: 20px;
-      background: rgba(0,0,0,0.8);
-      border-radius: 8px;
-      display: none;
-      padding: 10px;
-      z-index: 1000;
-    }
-    .menu ul { margin: 0; padding: 0; list-style: none; }
-    .menu li {
-      padding: 8px 15px;
-      color: #fff;
-      cursor: pointer;
-    }
-    .menu li:hover { background: rgba(255,255,255,0.1); }
-    /* アニメーション */
-    @keyframes typing { from{width:0;} to{width:100%;} }
-    @keyframes blink { 50%{border-color:transparent;} }
-    @keyframes fadeInUp { from{transform:translateY(40px);opacity:0;} to{transform:translateY(0);opacity:1;} }
-    @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
-    @keyframes popIn { from{transform:scale(0.7);opacity:0;} to{transform:scale(1);opacity:1;} }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>47都道府県 — オレンジ代表アイス一覧</title>
+<style>
+  :root{
+    --bg:#fff9f2;
+    --card:#ffffff;
+    --accent:#ff8c42;
+    --muted:#666;
+    --shadow: 0 6px 18px rgba(0,0,0,0.08);
+    font-family: "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+  }
+  body{ margin:0; background:linear-gradient(180deg,var(--bg),#fff); color:#222; }
+  header{ padding:20px; background:linear-gradient(90deg,var(--accent),#ffb074); color:white; box-shadow:0 4px 12px rgba(0,0,0,0.06); }
+  header h1{ margin:0;font-size:20px; }
+  header p{ margin:6px 0 0; opacity:0.95; font-size:13px; }
+  main{ max-width:1100px; margin:24px auto; padding:0 16px 80px;}
+  .grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:16px; }
+  .card{ background:var(--card); border-radius:12px; padding:12px; box-shadow:var(--shadow); display:flex; gap:12px; align-items:flex-start; }
+  .thumb{ width:120px; height:120px; border-radius:10px; background:linear-gradient(180deg,#fff,#fff); display:flex; justify-content:center; align-items:center; overflow:hidden; border:1px solid #eee; flex:0 0 120px; }
+  .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .info{ flex:1; min-width:0; }
+  .pref{ font-weight:700; font-size:16px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .pref small{ font-weight:500; font-size:12px; color:var(--muted); }
+  .fields{ display:flex; gap:8px; flex-wrap:wrap; }
+  .fields input[type="text"]{ flex:1 1 180px; padding:8px 10px; border-radius:8px; border:1px solid #ddd; font-size:14px; }
+  .fields input[type="url"]{ flex:1 1 240px; padding:8px 10px; border-radius:8px; border:1px solid #ddd; font-size:13px; }
+  .btns{ margin-top:8px; display:flex; gap:8px; }
+  button{ background:var(--accent); color:white; border:none; padding:8px 10px; border-radius:8px; cursor:pointer; }
+  button.ghost{ background:#f4f4f4; color:#444; border:1px solid #e0e0e0; }
+  footer{ max-width:1100px; margin:0 auto 40px; padding:0 16px; color:#666; font-size:13px;}
+  .controls{ display:flex; gap:8px; align-items:center; margin:12px 0 18px; flex-wrap:wrap; }
+  .notice{ background:#fff3e6; border-left:4px solid var(--accent); padding:10px 12px; border-radius:8px; color:#6a3b00; font-size:13px; }
+  @media (max-width:480px){
+    .thumb{ width:96px; height:96px; flex:0 0 96px; }
+  }
+</style>
 </head>
 <body>
-  <!-- メニューボタン -->
-  <div class="menu-btn" onclick="toggleMenu()">☰</div>
-  <div class="menu" id="menu">
-    <ul>
-      <li onclick="showQrCode()">📱 マイQRコード</li>
-    </ul>
+<header>
+  <h1>47都道府県 — オレンジ代表アイス一覧（テンプレート）</h1>
+  <p>各県の「オレンジ系の代表アイス」を入力して、画像URLを貼るか画像をアップロードすると一覧表示されます。</p>
+</header>
+
+<main>
+  <div class="notice">使い方: 各行で「品名」を入力、画像はURL貼付 or 「画像を選択」でローカル画像をプレビュー。完了したら下の「HTMLをダウンロード」でページ単体のHTMLとして保存できます。</div>
+
+  <div style="margin:12px 0;" class="controls">
+    <button id="fill-sample">サンプルを3件だけ埋める</button>
+    <button id="reset" class="ghost">全てリセット</button>
+    <button id="download">HTMLをダウンロード</button>
+    <span style="margin-left:auto; color:#444; font-size:13px;">47 都道府県のカタログ</span>
   </div>
 
-  <!-- 会社 -->
-  <section class="company">
-    <div class="bg" id="company-bg"></div>
-    <div class="content" id="gyro-target">
-      <div class="logo">Modern Solutions</div>
-      <h1>株式会社モダンソリューション</h1>
-      <p>広報部所属 / 田中 花子</p>
-      <p>「IT × クリエイティブ」で未来をつくる。<br>情報発信を通じて、企業と人をつなぐ役割を担っています。</p>
-      <p>⬇️ スクロールしてプライベート紹介へ</p>
-      <!-- SNSアイコン -->
-      <div class="sns-icons">
-        <a href="https://www.instagram.com" target="_blank">
-          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
-        </a>
-        <a href="https://line.me" target="_blank">
-          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111728.png" alt="LINE">
-        </a>
-        <a href="https://www.youtube.com" target="_blank">
-          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
-        </a>
-      </div>
-    </div>
-  </section>
-  <!-- プライベート -->
-  <section class="private">
-    <div class="card">
-      <h2>🌸 プライベート紹介</h2>
-      <p>趣味をクリックすると詳細が見られます👇</p>
-      <div class="hobbies">
-        <div class="hobby" onclick="openModal('旅行','世界中を旅して、美しい景色を写真に収めています。')">
-          <img src="https://placekitten.com/200/200" alt="旅行">
-        </div>
-        <div class="hobby" onclick="openModal('カフェ巡り','休日はお気に入りのカフェを探してリラックス。')">
-          <img src="https://picsum.photos/200/200?random=1" alt="カフェ">
-        </div>
-        <div class="hobby" onclick="openModal('動画制作','YouTubeに趣味のVlogを投稿しています。')">
-          <img src="https://picsum.photos/200/200?random=2" alt="動画制作">
-        </div>
-      </div>
-      <div class="fortune" id="fortune"></div>
-    </div>
-  </section>
-  <!-- 趣味用モーダル -->
-  <div class="modal" id="modal">
-    <div class="modal-content">
-      <h3 id="modal-title"></h3>
-      <p id="modal-text"></p>
-      <button class="close-btn" onclick="closeModal()">閉じる</button>
-    </div>
+  <div class="grid" id="list">
+    <!-- JavaScript が 47件のカードを生成します -->
   </div>
-  <!-- QRコード用モーダル -->
-  <div class="modal" id="qr-modal">
-    <div class="modal-content">
-      <h3>📱 マイQRコード</h3>
-      <div id="qrcode"></div>
-      <button class="close-btn" onclick="closeQr()">閉じる</button>
-    </div>
-  </div>
+</main>
 
-  <!-- QRコードライブラリ -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<footer>
+  <p>テンプレート提供: 自動生成HTML — 好きなレイアウトにカスタマイズしてください。画像は外部URLを直接貼るか、ファイル選択でローカル画像を使えます。</p>
+</footer>
 
-  <script>
-    // モーダル（趣味）
-    function openModal(title,text){
-      document.getElementById('modal-title').textContent=title;
-      document.getElementById('modal-text').textContent=text;
-      document.getElementById('modal').style.display='flex';
-      navigator.vibrate?.(100); // 振動
-    }
-    function closeModal(){ document.getElementById('modal').style.display='none'; }
+<script>
+  // 47都道府県（日本語）
+  const prefectures = [
+    "北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県",
+    "茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県",
+    "新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県",
+    "三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県",
+    "鳥取県","島根県","岡山県","広島県","山口県",
+    "徳島県","香川県","愛媛県","高知県",
+    "福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"
+  ];
 
-    // 占い（日替わり）
-    const fortunes=[
-      "大吉 🌟 新しい挑戦が成功につながります！",
-      "中吉 😊 友達との会話からヒントが得られそう。",
-      "小吉 🍀 ちょっとした工夫で物事がうまく進みます。",
-      "吉 ✨ 運動すると気分も運もアップ！",
-      "凶 😅 慎重に行動することでトラブル回避。"
-    ];
-    const today=new Date();
-    const seed=today.getFullYear()+today.getMonth()+today.getDate();
-    const index=seed%fortunes.length;
-    document.getElementById("fortune").textContent="🔮 今日の占い："+fortunes[index];
+  const listEl = document.getElementById('list');
 
-    // プライベート背景切替
-    const privateSection=document.querySelector(".private");
-    const privateBgs=[
-      "linear-gradient(135deg, #fbc2eb, #a6c1ee)",
-      "linear-gradient(135deg, #ffecd2, #fcb69f)",
-      "linear-gradient(135deg, #a1c4fd, #c2e9fb)"
-    ];
-    let bgIndex=0;
-    setInterval(()=>{
-      bgIndex=(bgIndex+1)%privateBgs.length;
-      privateSection.style.background=privateBgs[bgIndex];
-    },4000);
+  // 初期データ（空）を生成する
+  const data = prefectures.map(pref => ({
+    prefecture: pref,
+    product: "",     // 品名
+    imageUrl: ""     // 画像URL (または objectURL from file)
+  }));
 
-    // 会社背景を3秒ごとに切替
-    const companyBg=document.getElementById("company-bg");
-    const officeImgs=[
-      "url('https://picsum.photos/seed/office1/1200/800')",
-      "url('https://picsum.photos/seed/office2/1200/800')",
-      "url('https://picsum.photos/seed/office3/1200/800')"
-    ];
-    let officeIndex=0;
-    setInterval(()=>{
-      officeIndex=(officeIndex+1)%officeImgs.length;
-      companyBg.style.backgroundImage=officeImgs[officeIndex];
-    },3000);
+  function createCard(item, idx){
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.index = idx;
 
-    // ジャイロ（社名と名前を動かす）
-    const gyroTarget=document.getElementById("gyro-target");
-    window.addEventListener("deviceorientation",(e)=>{
-      const x=e.gamma, y=e.beta;
-      if(x!==null&&y!==null){
-        gyroTarget.style.transform=`rotateY(${x/5}deg) rotateX(${y/10}deg)`;
+    const thumb = document.createElement('div');
+    thumb.className = 'thumb';
+    const img = document.createElement('img');
+    img.alt = item.prefecture + ' の画像';
+    img.src = placeholderDataURI(item.prefecture);
+    thumb.appendChild(img);
+
+    const info = document.createElement('div');
+    info.className = 'info';
+
+    const pref = document.createElement('div');
+    pref.className = 'pref';
+    const left = document.createElement('div');
+    left.textContent = item.prefecture;
+    const right = document.createElement('small');
+    right.textContent = 'オレンジ系アイス';
+    pref.appendChild(left);
+    pref.appendChild(right);
+
+    const fields = document.createElement('div');
+    fields.className = 'fields';
+
+    const productInput = document.createElement('input');
+    productInput.type = 'text';
+    productInput.placeholder = '品名を入力（例: ○○みかんジェラート）';
+    productInput.value = item.product || '';
+    productInput.addEventListener('input', (e)=> {
+      data[idx].product = e.target.value;
+    });
+
+    const urlInput = document.createElement('input');
+    urlInput.type = 'url';
+    urlInput.placeholder = '画像URLを貼る（http...） / そのまま空欄可';
+    urlInput.value = item.imageUrl || '';
+    urlInput.addEventListener('change', (e)=>{
+      const v = e.target.value.trim();
+      data[idx].imageUrl = v;
+      if(v){
+        img.src = v;
+      } else {
+        img.src = placeholderDataURI(item.prefecture);
       }
     });
 
-    // パララックス
-    window.addEventListener("scroll",()=>{
-      document.querySelectorAll(".bg").forEach((bg)=>{
-        let offset=window.scrollY*0.3;
-        bg.style.transform=`translateY(${offset}px)`;
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.style.flex = '0 0 120px';
+    fileInput.addEventListener('change', (e)=>{
+      const f = e.target.files && e.target.files[0];
+      if(!f) return;
+      const url = URL.createObjectURL(f);
+      data[idx].imageUrl = url;
+      urlInput.value = ''; // clear url field
+      img.src = url;
+    });
+
+    fields.appendChild(productInput);
+    fields.appendChild(urlInput);
+    fields.appendChild(fileInput);
+
+    const btns = document.createElement('div');
+    btns.className = 'btns';
+    const clearBtn = document.createElement('button');
+    clearBtn.className='ghost';
+    clearBtn.textContent = 'リセット';
+    clearBtn.addEventListener('click', ()=>{
+      productInput.value = '';
+      urlInput.value = '';
+      fileInput.value = '';
+      data[idx].product = '';
+      data[idx].imageUrl = '';
+      img.src = placeholderDataURI(item.prefecture);
+    });
+
+    const copyBtn = document.createElement('button');
+    copyBtn.textContent = '行をコピー';
+    copyBtn.addEventListener('click', ()=>{
+      const text = JSON.stringify(data[idx]);
+      navigator.clipboard?.writeText(text).then(()=>{
+        copyBtn.textContent = 'コピー済み';
+        setTimeout(()=>copyBtn.textContent='行をコピー',900);
+      },()=>{
+        alert('クリップボードにコピーできませんでした');
       });
     });
 
-    // メニュー開閉
-    function toggleMenu() {
-      const menu=document.getElementById("menu");
-      menu.style.display = (menu.style.display === "block") ? "none" : "block";
-    }
+    btns.appendChild(clearBtn);
+    btns.appendChild(copyBtn);
 
-    // QRコード表示
-    function showQrCode() {
-      document.getElementById("qr-modal").style.display="flex";
-      document.getElementById("menu").style.display="none";
-      if (!document.getElementById("qrcode").hasChildNodes()) {
-        new QRCode(document.getElementById("qrcode"), {
-          text: "https://gomamiso-pro.github.io/profile_sample/",
-          width: 200,
-          height: 200
-        });
+    info.appendChild(pref);
+    info.appendChild(fields);
+    info.appendChild(btns);
+
+    card.appendChild(thumb);
+    card.appendChild(info);
+    return card;
+  }
+
+  // プレースホルダー画像（簡単なオレンジ風のSVGデータURI）
+  function placeholderDataURI(label){
+    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='400'><rect width='100%' height='100%' fill='#ffeee0'/><g><circle cx='200' cy='200' r='120' fill='#ffb157'/><text x='360' y='220' font-size='24' font-family='Arial' fill='#7a3b00'>${escapeHtml(label)}</text></g></svg>`;
+    return 'data:image/svg+xml;utf8,'+encodeURIComponent(svg);
+  }
+
+  function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  // render all
+  function render(){
+    listEl.innerHTML = '';
+    data.forEach((d,i) => {
+      const card = createCard(d,i);
+      listEl.appendChild(card);
+    });
+  }
+
+  render();
+
+  // ボタン操作
+  document.getElementById('reset').addEventListener('click', ()=>{
+    if(!confirm('全てリセットしてよいですか？')) return;
+    data.forEach((d)=>{ d.product=''; d.imageUrl=''; });
+    render();
+  });
+
+  document.getElementById('fill-sample').addEventListener('click', ()=>{
+    // サンプル3件だけ埋める（説明用） — 実在性を保証するものではありません
+    const samples = [
+      {pref: '愛媛県', product: 'みかんジェラート', image: ''},
+      {pref: '和歌山県', product: '南高梅オレンジシャーベット（例）', image: ''},
+      {pref: '静岡県', product: '伊豆みかんアイス（例）', image: ''}
+    ];
+    // find indexes
+    samples.forEach(s => {
+      const idx = prefectures.indexOf(s.pref);
+      if(idx >= 0){
+        data[idx].product = s.product;
+        data[idx].imageUrl = s.image || '';
       }
-    }
-    function closeQr() {
-      document.getElementById("qr-modal").style.display="none";
-    }
-  </script>
+    });
+    render();
+  });
+
+  // HTMLダウンロード（現在の一覧を単体HTMLにしてダウンロード）
+  document.getElementById('download').addEventListener('click', ()=>{
+    const exportHtml = buildStandaloneHtml();
+    const blob = new Blob([exportHtml], {type:'text/html;charset=utf-8'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'orange-ice-47.html';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  });
+
+  function buildStandaloneHtml(){
+    // build a simple static page from current data
+    const rows = data.map(d => {
+      const img = d.imageUrl ? d.imageUrl : placeholderDataURI(d.prefecture);
+      const pname = escapeHtml(d.product || '');
+      return `<article class="row">
+        <div class="thumb"><img src="${img}" alt="${escapeHtml(d.prefecture)}"></div>
+        <div class="meta"><h3>${escapeHtml(d.prefecture)}</h3><p class="product">${pname||'<i>（品名未設定）</i>'}</p></div>
+      </article>`;
+    }).join('\n');
+
+    const html = `<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>47都道府県 — オレンジ代表アイス一覧</title>
+<style>
+body{font-family:Arial,Helvetica,sans-serif; padding:20px; max-width:900px; margin:auto; background:#fffefb; color:#222;}
+h1{color:#ff7a2a;}
+.row{display:flex; gap:12px; align-items:center; padding:10px; border-bottom:1px solid #eee;}
+.row .thumb{width:120px;height:120px; overflow:hidden;border-radius:10px;border:1px solid #ddd;}
+.row .thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.row .meta h3{margin:0 0 6px 0;}
+.row .product{margin:0;color:#444;}
+@media(max-width:520px){ .row{flex-direction:row; gap:10px;} .row .thumb{width:96px;height:96px;} }
+</style>
+</head>
+<body>
+<h1>47都道府県 — オレンジ代表アイス一覧</h1>
+<p>（このページはエクスポートされた静的ページです）</p>
+<section>
+${rows}
+</section>
+</body>
+</html>`;
+    return html;
+  }
+
+  // 当ページ内で利用するための placeholderDataURI の簡易版（同一文字列は使いまわし）
+  function placeholderDataURI(label){
+    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='400'><rect width='100%' height='100%' fill='#fff7f0'/><g><circle cx='200' cy='200' r='120' fill='#ffb157'/><text x='360' y='220' font-size='24' font-family='Arial' fill='#7a3b00'>${label}</text></g></svg>`;
+    return 'data:image/svg+xml;utf8,'+encodeURIComponent(svg);
+  }
+</script>
 </body>
 </html>
